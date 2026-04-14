@@ -55,11 +55,12 @@ A YOLO model used for object detection.
 
 ```text
 Aerial Object Classification and Detection/
-|-- app.py              # Streamlit application
-|-- cnn_final.pth       # Trained custom CNN weights
-|-- resnet_final.pth    # Trained ResNet50 weights
-|-- best.pt             # Trained YOLO model
-`-- README.md           # Project documentation
+|-- app.py                                  # Streamlit application
+|-- cnn_final.pth                           # Trained custom CNN weights
+|-- resnet_final.pth                        # Trained ResNet50 weights
+|-- best.pt                                 # Trained YOLO model
+|-- bird_vs_drone_classifica tion.ipynb     # ipynb file
+`-- README.md                               # Project documentation
 ```
 
 ## How the App Works
