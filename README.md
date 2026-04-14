@@ -2,6 +2,10 @@
 
 This project is a deep learning-based system for identifying aerial objects as either a **bird** or a **drone**. It combines image classification and object detection in a simple Streamlit application so a user can upload an image and compare how different models respond.
 
+## Live App
+
+Streamlit Demo: https://koushik-gupta-ariel-object-detection-project-app-jzpzm0.streamlit.app/
+
 ## What This Project Does
 
 The application performs three model-based checks on an uploaded image:
