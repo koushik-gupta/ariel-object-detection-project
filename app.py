@@ -3,7 +3,6 @@ from PIL import Image
 import torch
 import torch.nn as nn
 from torchvision import transforms, models
-from ultralytics import YOLO
 
 st.title("Bird vs Drone Detection System")
 
@@ -70,12 +69,13 @@ def load_resnet_model():
 
 @st.cache_resource
 def load_yolo_model():
+    from ultralytics import YOLO
+
     return YOLO("best.pt")
 
 
 cnn_model = load_cnn_model()
 resnet_model = load_resnet_model()
-yolo_model = load_yolo_model()
 
 
 transform = transforms.Compose([
@@ -112,7 +112,11 @@ if uploaded_file is not None:
     st.write(f"### ResNet Prediction: {classes[pred.item()]} ({conf.item()*100:.2f}%)")
 
 
-    results = yolo_model(image)
+    try:
+        yolo_model = load_yolo_model()
+        results = yolo_model(image)
 
-    st.write("### YOLO Detection:")
-    st.image(results[0].plot(), caption="YOLO Output")
+        st.write("### YOLO Detection:")
+        st.image(results[0].plot(), caption="YOLO Output")
+    except ImportError as exc:
+        st.error(f"YOLO detection is unavailable because OpenCV failed to load: {exc}")
