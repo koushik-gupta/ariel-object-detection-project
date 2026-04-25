@@ -44,27 +44,38 @@ class SimpleCNN(nn.Module):
         x = self.classifier(x)
         return x
 
-# CNN
-cnn_model = SimpleCNN()
-cnn_model.load_state_dict(torch.load("cnn_final.pth", map_location="cpu"))
-cnn_model.eval()
+@st.cache_resource
+def load_cnn_model():
+    model = SimpleCNN()
+    model.load_state_dict(torch.load("cnn_final.pth", map_location="cpu"))
+    model.eval()
+    return model
 
-# ResNet
-resnet_model = models.resnet50(weights=None)
 
-resnet_model.fc = nn.Sequential(
-    nn.Linear(resnet_model.fc.in_features, 256),
-    nn.ReLU(),
-    nn.Dropout(0.5),
-    nn.Linear(256, 2)
-)
+@st.cache_resource
+def load_resnet_model():
+    model = models.resnet50(weights=None)
 
-resnet_model.load_state_dict(torch.load("resnet_final.pth", map_location="cpu"))
-resnet_model.eval()
+    model.fc = nn.Sequential(
+        nn.Linear(model.fc.in_features, 256),
+        nn.ReLU(),
+        nn.Dropout(0.5),
+        nn.Linear(256, 2)
+    )
 
-# YOLO
-yolo_model = YOLO("best.pt")
+    model.load_state_dict(torch.load("resnet_final.pth", map_location="cpu"))
+    model.eval()
+    return model
 
+
+@st.cache_resource
+def load_yolo_model():
+    return YOLO("best.pt")
+
+
+cnn_model = load_cnn_model()
+resnet_model = load_resnet_model()
+yolo_model = load_yolo_model()
 
 
 transform = transforms.Compose([
